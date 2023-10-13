@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './src/app.module';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import * as dotenv from 'dotenv';
 
 async function bootstrap() {
@@ -7,30 +8,18 @@ async function bootstrap() {
 
   const Port = process.env.PORT || 5000;
   const app = await NestFactory.create(AppModule);
+
+  const corsOptions: CorsOptions = {
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+
+  app.enableCors(corsOptions);
+
   await app.listen(Port, () => {
     console.log(`Server is now running on port ${Port}`);
   });
 }
 
 bootstrap();
-
-// import { NestFactory } from '@nestjs/core';
-
-// import * as dotenv from 'dotenv';
-// import * as path from 'path';
-// import { AppModule } from 'src/app.module';
-
-// async function bootstrap() {
-//   const result = dotenv.config({ path: path.resolve(__dirname, '../.env') });
-
-//   if (result.error) {
-//     console.error('Error loading .env file:', result.error);
-//   } else {
-//     console.log('Loaded environment variables from .env file');
-//   }
-
-//   const app = await NestFactory.create(AppModule);
-//   await app.listen(3000);
-// }
-
-// bootstrap();

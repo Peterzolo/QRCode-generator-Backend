@@ -21,7 +21,7 @@ export class QRCodeController {
       console.log('QRCODE', qrCodeImage);
 
       res.header('Content-Type', 'image/png');
-      return res.send(qrCodeImage);
+      return res.send({ result: qrCodeImage });
     } catch (error) {
       throw new HttpException(
         'Failed to generate QR code',
